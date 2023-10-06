@@ -1,5 +1,6 @@
 rm(list=ls())
 library(shiny)
+library(VGAM)
 
 # Define UI for app that draws Different plots for different distributions ----
 ui <- fluidPage(
@@ -37,6 +38,7 @@ ui <- fluidPage(
                        "Gamma"="gamma",
                        "Weibull"="weibull",
                        "Beta"="beta",
+                       "Rayleigh"="rayleigh",
                        "Uniform"="uniform",
                        "Geometric"="geometric",
                        "Logistic"="logistic",
@@ -86,6 +88,11 @@ ui <- fluidPage(
         condition = "input.popDistX == 'beta'",
         numericInput("shape1", "shape1", min=0.01, max=500, value=2, step=0.01),
         numericInput("shape2", "shape2", min=0.01, max=500, value=2, step=0.01)
+      ),
+      #For Rayleigh
+      conditionalPanel(
+        condition = "input.popDistX == 'rayleigh'",
+        numericInput("scalerayl","scale",min=0.01,max=500,value=2,step = 0.01)
       ),
       #For Uniform
       conditionalPanel(
@@ -200,6 +207,8 @@ server = function(input, output){
       t(replicate(input$sim,rweibull(input$nX, input$shapeweibull,input$scaleweibull)))
     }else if(input$popDistX== "beta"){
       t(replicate(input$sim,rbeta(input$nX, input$shape1,input$shape2)))
+    }else if(input$popDistX== "rayleigh"){
+      t(replicate(input$sim,rrayleigh(input$nX, input$scalerayl)))
     }else if(input$popDistX== "uniform"){
       t(replicate(input$sim,runif(input$nX, input$min,input$max)))
      }
@@ -255,6 +264,8 @@ server = function(input, output){
         abline(h=input$scaleweibull*gamma(1+(1/input$shapeweibull)))
       }else if(input$popDistX== "beta"){
         abline(h=input$shape1/(input$shape1+input$shape2))
+      }else if(input$popDistX== "rayleigh"){
+        abline(h=input$scalerayl*sqrt(pi/2))
       }else if(input$popDistX== "uniform"){
         abline(h=(input$min+input$max)/2)
       }
@@ -295,6 +306,9 @@ server = function(input, output){
         curve(dnorm(x,input$scaleweibull*gamma(1+(1/input$shapeweibull)),sqrt(input$scaleweibull^2*(gamma(1+(2/input$shapeweibull))-(gamma(1+(1/input$shapeweibull)))^2))/sqrt(input$nX)),col="blue",lwd=4,add=T)
       }else if(input$popDistX== "beta"){
         curve(dnorm(x,input$shape1/(input$shape1+input$shape2),sqrt(input$shape1*input$shape2/((input$shape1+input$shape2)^2*(input$shape1+input$shape2+1)))/sqrt(input$nX)),col="blue",lwd=4,add=T)
+      }else if(input$popDistX== "rayleigh"){
+        curve(dnorm(x,input$scalerayl*sqrt(pi/2),sqrt((4-pi)*input$scalerayl^2/2)/sqrt(input$nX)),col="blue",lwd=4,add=T)
+        abline(h=)
       }else if(input$popDistX== "uniform"){
         curve(dnorm(x,(input$min+input$max)/2,sqrt((input$max-input$min)^2/12)/sqrt(input$nX)),col="blue",lwd=4,add=T)
       }
