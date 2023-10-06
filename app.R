@@ -9,7 +9,24 @@ library(shiny)
 library(VGAM)
 
 # Define UI for app that draws Different plots for different distributions ----
-ui <- fluidPage(
+ui <- fluidPage(    
+  tags$head(
+  tags$style(HTML("
+            code {
+                display:block;
+                padding:9.5px;
+                margin:0 0 10px;
+                margin-top:10px;
+                font-size:13px;
+                line-height:20px;
+                word-break:break-all;
+                word-wrap:break-word;
+                white-space:pre-wrap;
+                background-color:#F5F5F5;
+                border:1px solid rgba(0,0,0,0.15);
+                border-radius:4px; 
+                font-family:monospace;
+            }"))),
   
   # App title ----
   titlePanel("Central Limit Theorem"),
@@ -19,6 +36,11 @@ ui <- fluidPage(
     
     # Sidebar panel for inputs ----
     sidebarPanel(
+      
+   strong("Central limit theorem says, if we draw a sufficiently large number of sample 
+        from any population with a finite mean and finite variance, then the distribution 
+        of the sample mean will approximately follow a Normal distribution. But does it? Always?
+        Let's find out!"),
       
       #Whether to use normal QQ plot
       checkboxInput(inputId = "QQplot",
@@ -36,7 +58,7 @@ ui <- fluidPage(
       
       #Choosing different distributions with different parameters
       selectInput(inputId = "popDistX",
-                  label = "Distribution",
+                  label = "Population",
                   list("Normal"="normal",
                        "Binomial"="binomial",
                        "Poisson"="poisson",
