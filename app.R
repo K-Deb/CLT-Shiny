@@ -1,4 +1,10 @@
 rm(list=ls())
+
+requiredPackages <- c("shiny","VGAM")
+for (package in requiredPackages) { #Installs packages if not yet installed
+  if (!requireNamespace(package, quietly = TRUE))
+    install.packages(package)
+}
 library(shiny)
 library(VGAM)
 
