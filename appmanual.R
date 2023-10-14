@@ -1,3 +1,5 @@
+#This script contains the code for a manual simulation of CLT.
+#Changing any input parameter will only change the output if the 'simulate sample' button has been pressed.
 rm(list=ls())
 
 requiredPackages <- c("shiny","VGAM")
