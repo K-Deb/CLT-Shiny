@@ -1,4 +1,4 @@
-#This app contains the code for an automatic simulation in an interactive environment.
+#This script contains the code for an automatic simulation in an interactive environment.
 #Changing any input parameters will instantly change the outputs.
 
 rm(list=ls())
