@@ -6,7 +6,7 @@ The central limit theorem says that whenever a sample of sufficiently large size
 
 Run this app in your `Rstudio` using the following lines of commands: 
 
-    rm(list=ls()
+    rm(list=ls())
     require(shiny)
     #CLT
     #Auto simulation #If want to run the auto simulation app
